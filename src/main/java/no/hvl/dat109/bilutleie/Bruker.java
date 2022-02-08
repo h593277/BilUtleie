@@ -1,9 +1,7 @@
 package no.hvl.dat109.bilutleie;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
@@ -75,6 +73,12 @@ public class Bruker {
 		LeieAvtale avtalen = new LeieAvtale(autoGen, this, bilen, leieTil, leieFra);
 		stedet.nyAvtale(avtalen);
 		avtaler.add(avtalen);
+	}
+	
+	public void Leverinn(LeieAvtale avtalen)
+	{
+	  avtalen.getLeieBil().setLedig(true);
+	  avtalen.setLeieTil(LocalDateTime.now());
 	}
 	
 	

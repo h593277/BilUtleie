@@ -41,5 +41,38 @@ public class LeieAvtale {
 	public LocalDateTime getLeieTil() {
 		return leieTil;
 	}
+	
+	public void Utløpt()
+	{
+	   this.leieBil.setLedig(true);	
+	}
+
+	public int getPris() {
+		return Pris;
+	}
+
+	public void setPris(int pris) {
+		Pris = pris;
+	}
+
+	public void setAvtaleNummer(int avtaleNummer) {
+		this.avtaleNummer = avtaleNummer;
+	}
+
+	public void setLeieTaker(Bruker leieTaker) {
+		this.leieTaker = leieTaker;
+	}
+
+	public void setLeieBil(Bil leieBil) {
+		this.leieBil = leieBil;
+	}
+
+	public void setLeieFra(LocalDateTime leieFra) {
+		this.leieFra = leieFra;
+	}
+
+	public void setLeieTil(LocalDateTime leieTil) {
+		this.leieTil = leieTil;
+	}
 
 }

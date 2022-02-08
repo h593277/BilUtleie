@@ -74,6 +74,7 @@ public class UtleieSted {
 	public void nyAvtale(LeieAvtale avtalen)
 	{
 		avtaler.add(avtalen);
+		avtalen.getLeieBil().setLedig(false);
 	}
 	
 }
