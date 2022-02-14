@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
+/**
+@author Markus Løtveit
+*/
+
 public class Bruker {
 	
 	private String fornavn;
@@ -54,31 +58,54 @@ public class Bruker {
 		this.avtaler = avtaler;
 	}
 	
+	/**
+	@author Markus Løtveit
+	*Leie metoden, tar inn et utleiested og viser til brukeren hvilke biler som kan leies fra det stedet.
+	*/
 	public void Leie(UtleieSted stedet, int autoGen)
 	{
-		List<String> biler = stedet.getBiler().stream().filter(x -> x.getLedig().booleanValue() == true).map(x -> x.getModel()).collect(Collectors.toList());  
-		String s = (String) JOptionPane.showInputDialog(null, "Velg bil", "Biler", JOptionPane.QUESTION_MESSAGE, null, biler.toArray(), biler.get(0));
+		List<String> biler = stedet.getBiler().stream().filter(x -> x.getLedig().booleanValue() == true).map(x -> x.getMerke()).collect(Collectors.toList());  
+		String s = (String) JOptionPane.showInputDialog(null, "Velg bil", "Merker", JOptionPane.QUESTION_MESSAGE, null, biler.toArray(), biler.get(0));
 		
-		Bil bilen = stedet.getBiler().stream().filter(x -> x.getModel().equals(s) && x.getLedig().booleanValue() == true).findFirst().orElseGet(null);
+		System.out.println("Bilmerke: " + s);
 		
-		String leie = (String) JOptionPane.showInputDialog("Skriv inn dato til på format: yyyy-mm-dd");
-		LocalDateTime leieFra = LocalDateTime.now();
-		leieFra = LocalDateTime.parse(leie + "T" + leieFra.getHour() + ":" + leieFra.getMinute() + ":" + leieFra.getSecond());
+		List<String> bilerModel = stedet.getBiler().stream().filter(x -> x.getLedig().booleanValue() == true && x.getMerke().equals(s)).map(x -> x.getModel()).collect(Collectors.toList());  
+		String sModel = (String) JOptionPane.showInputDialog(null, "Velg bil", "Modeller", JOptionPane.QUESTION_MESSAGE, null, bilerModel.toArray(), bilerModel.get(0));
 		
-		leie = (String) JOptionPane.showInputDialog("Skriv inn dato fra på format: yyyy-mm-dd");
+		Bil bilen = stedet.getBiler().stream().filter(x -> x.getMerke().equals(s) && x.getModel().equals(sModel) && x.getLedig().booleanValue() == true).findFirst().orElseGet(null);
 		
-		LocalDateTime leieTil = LocalDateTime.now();
-	    leieTil = LocalDateTime.parse(leie + "T" + leieTil.getHour() + ":" + leieTil.getMinute() + ":" + leieTil.getSecond());
+		System.out.println("Bilmodel: " + sModel);
+	
+	    int yearFra = Integer.parseInt((String) JOptionPane.showInputDialog("Leie fra årstall"));
+	    int monthFra = Integer.parseInt((String) JOptionPane.showInputDialog("Leie fra måned"));
+	    int dayFra = Integer.parseInt((String) JOptionPane.showInputDialog("Leie fra dag"));
+		LocalDateTime leieFra = LocalDateTime.of(yearFra, monthFra, dayFra, 12, 0);
+		System.out.println("Leies fra: " + leieFra.toString());
+	
+	    int year = Integer.parseInt((String) JOptionPane.showInputDialog("Leie til årstall"));
+	    int month = Integer.parseInt((String) JOptionPane.showInputDialog("Leie til måned"));
+	    int day = Integer.parseInt((String) JOptionPane.showInputDialog("Leie til dag"));
+		LocalDateTime leieTil = LocalDateTime.of(year, month, day, 12, 0);
 		
-		LeieAvtale avtalen = new LeieAvtale(autoGen, this, bilen, leieTil, leieFra);
+		System.out.println("Leies fra: " + leieTil.toString());
+		String kreditNummer = (String) JOptionPane.showInputDialog("Oppgi Kreditnummer");
+		LeieAvtale avtalen = new LeieAvtale(autoGen, this, bilen, leieFra, leieTil, stedet, kreditNummer);
+		System.out.println("Avtalen: " + avtalen.getAvtaleNummer()  + " Pris: " + avtalen.getPris() + " kr");
 		stedet.nyAvtale(avtalen);
 		avtaler.add(avtalen);
+		
+		System.out.println("Bilen: Merke: " + avtalen.getLeieBil().getMerke() + " Model: " + avtalen.getLeieBil().getModel() + " Farge: " + avtalen.getLeieBil().getFarge() + " Ledig: " + avtalen.getLeieBil().getLedig());
+		
+		stedet.getAvtaler().forEach(x -> System.out.println(stedet.getNavn() +  " avtalenr: " + x.getAvtaleNummer()));
+		this.avtaler.forEach(x -> System.out.println(this.fornavn + " avtalenr: " + x.getAvtaleNummer()));
 	}
 	
 	public void Leverinn(LeieAvtale avtalen)
 	{
 	  avtalen.getLeieBil().setLedig(true);
 	  avtalen.setLeieTil(LocalDateTime.now());
+	  System.out.println("Bilen er levert inn: "+ avtalen.getLeieTil() + " " + avtalen.getLeieBil().getMerke() + " " + avtalen.getLeieBil().getModel() + " " + avtalen.getLeieBil().getLedig());
+	  System.out.println("Ved utleiested: " + avtalen.getStedet().getNavn());
 	}
 	
 	

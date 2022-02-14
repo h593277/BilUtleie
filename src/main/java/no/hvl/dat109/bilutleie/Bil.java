@@ -1,22 +1,26 @@
 package no.hvl.dat109.bilutleie;
 
+/**
+@author Markus Løtveit
+*/
+
 public class Bil {
 	
 	private String registreringsNummer;
 	private String merke;
 	private String model;
 	private String farge;
-	private UtleieSted leieSted;
+	private Klasse klasse;
 	private Boolean ledig; 
 	
 	
-	public Bil(String registreringsNummer, String merke, String model, String farge, UtleieSted leieSted,
+	public Bil(String registreringsNummer, String merke, String model, String farge, Klasse klasse,
 			Boolean ledig) {
 		this.registreringsNummer = registreringsNummer;
 		this.merke = merke;
 		this.model = model;
 		this.farge = farge;
-		this.leieSted = leieSted;
+		this.klasse = klasse;
 		this.ledig = ledig;
 	}
 
@@ -60,14 +64,15 @@ public class Bil {
 		this.farge = farge;
 	}
 
+	
 
-	public UtleieSted getLeieSted() {
-		return leieSted;
+	public Klasse getKlasse() {
+		return klasse;
 	}
 
 
-	public void setLeieSted(UtleieSted leieSted) {
-		this.leieSted = leieSted;
+	public void setKlasse(Klasse klasse) {
+		this.klasse = klasse;
 	}
 
 

@@ -1,6 +1,11 @@
 package no.hvl.dat109.bilutleie;
 
+import java.util.ArrayList;
 import java.util.List;
+
+/**
+@author Markus Løtveit
+*/
 
 public class UtleieSted {
 	
@@ -11,13 +16,13 @@ public class UtleieSted {
 	private List<LeieAvtale> avtaler;
 	private List<Bil> biler;
 	
-	public UtleieSted(int nummer, String navn, String telefonNummer, Adresse adressen, List<LeieAvtale> avtaler, List<Bil> biler) {
+	public UtleieSted(int nummer, String navn, String telefonNummer, Adresse adressen, List<Bil> biler) {
 		this.nummer = nummer;
 		this.navn = navn;
 		this.telefonNummer = telefonNummer;
 		this.adressen = adressen;
-		this.avtaler = avtaler;
 		this.biler = biler;
+		avtaler = new ArrayList<LeieAvtale>();
 	}
 	
 
@@ -70,6 +75,11 @@ public class UtleieSted {
 	public void setBiler(List<Bil> biler) {
 		this.biler = biler;
 	}
+	
+	/**
+	@author Markus Løtveit
+	*Legger til en nyopprettet avtale med brukeren til listen over avtaler.
+	*/
 	
 	public void nyAvtale(LeieAvtale avtalen)
 	{

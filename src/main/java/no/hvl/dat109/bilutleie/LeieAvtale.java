@@ -2,6 +2,10 @@ package no.hvl.dat109.bilutleie;
 
 import java.time.LocalDateTime;
 
+/**
+@author Markus Løtveit
+*/
+
 public class LeieAvtale {
 	
 	public final static int DAGSPRIS = 250;
@@ -11,17 +15,40 @@ public class LeieAvtale {
 	private Bil leieBil;
 	private LocalDateTime leieFra;
 	private LocalDateTime leieTil;
-	private int Pris;
-	
-	public LeieAvtale(int avtaleNummer, Bruker leieTaker, Bil leieBil, LocalDateTime leieFra, LocalDateTime leieTil) {
+	private int pris;
+	private int km;
+	private UtleieSted stedet;
+	private String kreditNummer;
+
+	public LeieAvtale(int avtaleNummer, Bruker leieTaker, Bil leieBil, LocalDateTime leieFra, LocalDateTime leieTil, UtleieSted stedet, String KreditNummer) {
 		this.avtaleNummer = avtaleNummer;
 		this.leieTaker = leieTaker;
 		this.leieBil = leieBil;
 		this.leieFra = leieFra;
 		this.leieTil = leieTil;
-		this.Pris = (leieTil.getDayOfYear() - leieFra.getDayOfYear())*DAGSPRIS;
+		this.pris = (leieTil.getDayOfYear() - leieFra.getDayOfYear())*DAGSPRIS;
+		km = 0;
+		this.stedet = stedet;
+		this.kreditNummer = kreditNummer;
+	}
+	
+	public UtleieSted getStedet() {
+		return stedet;
 	}
 
+	public void setStedet(UtleieSted stedet) {
+		this.stedet = stedet;
+	}
+
+
+	public int getKm() {
+		return km;
+	}
+
+	public void setKm(int km) {
+		this.km = km;
+	}
+	
 	public int getAvtaleNummer() {
 		return avtaleNummer;
 	}
@@ -42,17 +69,13 @@ public class LeieAvtale {
 		return leieTil;
 	}
 	
-	public void Utløpt()
-	{
-	   this.leieBil.setLedig(true);	
-	}
 
 	public int getPris() {
-		return Pris;
+		return pris;
 	}
 
 	public void setPris(int pris) {
-		Pris = pris;
+		this.pris = pris;
 	}
 
 	public void setAvtaleNummer(int avtaleNummer) {
@@ -73,6 +96,15 @@ public class LeieAvtale {
 
 	public void setLeieTil(LocalDateTime leieTil) {
 		this.leieTil = leieTil;
+	}
+	
+	public void Utløpt()
+	{
+		if(leieTil.getDayOfYear() - leieFra.getDayOfYear() <= 0)
+		{
+			leieBil.setLedig(true);
+			leieTil = LocalDateTime.now();
+		}
 	}
 
 }

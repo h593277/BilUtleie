@@ -1,5 +1,9 @@
 package no.hvl.dat109.bilutleie;
 
+/**
+@author Markus Løtveit
+*/
+
 public class Adresse {
 	
 	private String postNummer;
